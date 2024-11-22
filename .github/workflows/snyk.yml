@@ -19,7 +19,8 @@ jobs:
     - name: Set up JDK
       uses: actions/setup-java@v3
       with:
-        java-version: '11'  # Set your Java version here
+        java-version: '11'   # Java version
+        distribution: 'adoptopenjdk'   # Specify the JDK distribution
 
     - name: Install dependencies
       run: |
@@ -36,4 +37,3 @@ jobs:
 
     - name: Snyk Monitor
       run: snyk monitor --all-projects
-
