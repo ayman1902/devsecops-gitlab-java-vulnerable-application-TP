@@ -27,7 +27,7 @@ jobs:
 
       # Step 3: Install Snyk CLI
       - name: Install Snyk CLI
-        uses: snyk/actions/setup@v1
+        uses: snyk/actions/setup@a93b4b27f0f2d8457d4c3439ba83d1ddbd40e0d6
         with:
           token: ${{ secrets.SNYK_TOKEN }}
 
