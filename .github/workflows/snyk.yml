@@ -1,4 +1,4 @@
-name: Snyk Scan for Java App
+name: Snyk Scan
 
 on:
   push:
@@ -16,16 +16,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Set up JDK
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'   # Java version
-        distribution: 'adoptopenjdk'   # Specify the JDK distribution
-
-    - name: Install dependencies
-      run: |
-        ./mvnw install  # Use your build tool, such as Maven or Gradle
-
     - name: Install Snyk CLI
       run: npm install -g snyk
 
@@ -34,6 +24,3 @@ jobs:
 
     - name: Snyk Test
       run: snyk test --all-projects
-
-    - name: Snyk Monitor
-      run: snyk monitor --all-projects
