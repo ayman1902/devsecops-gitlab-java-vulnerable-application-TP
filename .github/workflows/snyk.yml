@@ -23,27 +23,14 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
-          java-version: '17'  # Adjust based on your project’s Java version
+          java-version: '17' # Adjust based on your project’s Java version
 
-      # Step 3: Cache Maven dependencies
-      - name: Cache Maven dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.m2/repository
-          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
-          restore-keys: |
-            ${{ runner.os }}-m2
-
-      # Step 4: Install Snyk CLI
+      # Step 3: Install Snyk CLI
       - name: Install Snyk CLI
-        uses: snyk/actions/setup@v2
+        uses: snyk/actions/setup@v1
         with:
           token: ${{ secrets.SNYK_TOKEN }}
 
-      # Step 5: Run Snyk Test
+      # Step 4: Run Snyk Test
       - name: Run Snyk test
         run: snyk test --all-projects
-
-      # Optional: Monitor your project with Snyk
-      - name: Monitor project with Snyk
-        run: snyk monitor --all-projects
