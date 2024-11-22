@@ -1,0 +1,49 @@
+name: Snyk Vulnerability Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  snyk:
+    name: Snyk Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Java
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'  # Adjust based on your project’s Java version
+
+      # Step 3: Cache Maven dependencies
+      - name: Cache Maven dependencies
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-m2
+
+      # Step 4: Install Snyk CLI
+      - name: Install Snyk CLI
+        uses: snyk/actions/setup@v2
+        with:
+          token: ${{ secrets.SNYK_TOKEN }}
+
+      # Step 5: Run Snyk Test
+      - name: Run Snyk test
+        run: snyk test --all-projects
+
+      # Optional: Monitor your project with Snyk
+      - name: Monitor project with Snyk
+        run: snyk monitor --all-projects
